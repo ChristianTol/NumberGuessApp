@@ -8,6 +8,11 @@ import MainButton from '../components/MainButton';
 import BodyText from '../components/BodyText';
 import DefaultStyles from '../constants/default-styles';
 
+const Direction = {
+  lower: 'lower',
+  greater : 'greater'
+};
+
 const generateRandomBetween = (min, max, exclude) => {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -62,8 +67,8 @@ const GameScreen = props => {
 
   const nextGuessHandler = direction => {
     if (
-      (direction === 'lower' && currentGuess < props.userChoice) || 
-      (direction === 'greater' && currentGuess > props.userChoice)
+      (direction === Direction.lower && currentGuess < props.userChoice) || 
+      (direction === Direction.greater && currentGuess > props.userChoice)
     ) {
       Alert.alert("Don\'t lie!", 'You know that this is wrong...', [
           { text: 'Sorry!', style: 'cancel' }
@@ -71,7 +76,7 @@ const GameScreen = props => {
       return;
     }
 
-    if (direction === 'lower') {
+    if (direction === Direction.lower) {
       currentHigh.current = currentGuess;
     } else {
       currentLow.current = currentGuess + 1;
@@ -99,10 +104,10 @@ const GameScreen = props => {
       <Card style={{...styles.buttonContainer, ...{
         marginTop: availableDeviceHeight > 600 ? 20 : 5
       }}}>
-        <MainButton onPress={nextGuessHandler.bind(this, 'lower')}>
+        <MainButton onPress={nextGuessHandler.bind(this, Direction.lower)}>
           <Ionicons name="md-remove" size={24} color="white"/>
         </MainButton>
-        <MainButton onPress={nextGuessHandler.bind(this, 'greater')}>
+        <MainButton onPress={nextGuessHandler.bind(this, Direction.greater)}>
           <Ionicons name="md-add" size={24} color="white"/>
         </MainButton>
       </Card>
@@ -112,11 +117,11 @@ const GameScreen = props => {
   if (availableDeviceHeight < 500) {
     gameControls = (
       <View style={styles.controls}>
-        <MainButton onPress={nextGuessHandler.bind(this, 'lower')}>
+        <MainButton onPress={nextGuessHandler.bind(this, Direction.lower)}>
           <Ionicons name="md-remove" size={24} color="white"/>
         </MainButton>
         <NumberContainer>{currentGuess}</NumberContainer>
-        <MainButton onPress={nextGuessHandler.bind(this, 'greater')}>
+        <MainButton onPress={nextGuessHandler.bind(this, Direction.greater)}>
           <Ionicons name="md-add" size={24} color="white"/>
         </MainButton>
       </View>
